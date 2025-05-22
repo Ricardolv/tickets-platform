@@ -1,0 +1,11 @@
+services:
+  # Our PostreSQL image
+  db:
+    # Using the latest PostgresSQL image
+    image: postgres:latest
+    container_name: db-tickets
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: changemeinprod!
