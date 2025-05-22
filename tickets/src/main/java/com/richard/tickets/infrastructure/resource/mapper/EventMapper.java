@@ -4,30 +4,32 @@ import com.richard.tickets.infrastructure.persistence.entities.Event;
 import com.richard.tickets.infrastructure.persistence.entities.TicketType;
 import com.richard.tickets.infrastructure.resource.request.CreateEventRequest;
 import com.richard.tickets.infrastructure.resource.request.CreateTicketTypeRequest;
+import com.richard.tickets.infrastructure.resource.response.CreateEventResponse;
+import com.richard.tickets.infrastructure.resource.response.CreateTicketTypeReponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
-public interface TicketMapper {
-
-    TicketMapper INSTANCE = Mappers.getMapper(TicketMapper.class);
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface EventMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "attendees", ignore = true)
     @Mapping(target = "staff", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    Event ticketToTicketResource(CreateEventRequest request);
+    Event requetToEvent(CreateEventRequest request);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "event", ignore = true)
     @Mapping(target = "tickets", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    TicketType ticketTypeToTicketTypeResource(CreateTicketTypeRequest request);
+    TicketType requetToEventTicketType(CreateTicketTypeRequest request);
 
+    CreateEventResponse eventToEventResponse(Event event);
 
+    CreateTicketTypeReponse ticketTypeToTicketTypeResponse(TicketType ticketType);
 
 }
 

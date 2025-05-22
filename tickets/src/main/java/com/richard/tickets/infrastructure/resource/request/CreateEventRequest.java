@@ -2,6 +2,8 @@ package com.richard.tickets.infrastructure.resource.request;
 
 import com.richard.tickets.infrastructure.persistence.entities.User;
 import com.richard.tickets.infrastructure.persistence.entities.enums.EventStatusEnum;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,13 +18,25 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateEventRequest {
+
+    @NotBlank(message = "Event name is required")
     private String name;
+
     private LocalDateTime start;
+
     private LocalDateTime end;
+
+    @NotBlank(message = "Venue information is required")
     private String venue;
+
     private LocalDateTime salesStart;
+
     private LocalDateTime salesEnd;
+
+    @NotNull(message = "Event status must be provided")
     private EventStatusEnum status;
+
     private User organizer;
+
     private List<CreateTicketTypeRequest> ticketTypes = new ArrayList<>();
 }
