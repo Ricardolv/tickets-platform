@@ -1,7 +1,7 @@
 package com.richard.tickets.infrastructure.persistence.entities;
 
-import com.richard.tickets.infrastructure.persistence.entities.enums.TicketStatusEnum;
-import jakarta.persistence.CascadeType;
+import com.richard.tickets.infrastructure.persistence.entities.enums.TicketValidationMethod;
+import com.richard.tickets.infrastructure.persistence.entities.enums.TicketValidationStatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,19 +25,18 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "tickets")
+@Table(name = "ticket_validations")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Ticket {
+public class TicketValidation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -47,20 +45,15 @@ public class Ticket {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private TicketStatusEnum status;
+    private TicketValidationStatusEnum status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "validation_method", nullable = false)
+    private TicketValidationMethod validationMethod;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ticket_type_id")
-    private TicketType ticketType;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchaser_id")
-    private User purchaser;
-
-    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-    private List<TicketValidation> validations = List.of();
-
-    // TODO: QRcode
+    @JoinColumn(name = "ticket_id")
+    private Ticket ticket;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
