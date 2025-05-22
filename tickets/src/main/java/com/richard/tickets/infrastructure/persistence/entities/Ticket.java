@@ -26,6 +26,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -58,11 +59,13 @@ public class Ticket {
     @JoinColumn(name = "purchaser_id")
     private User purchaser;
 
+    @Builder.Default
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-    private List<TicketValidation> validations = List.of();
+    private List<TicketValidation> validations = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-    private List<QrCode> qrCodes = List.of();
+    private List<QrCode> qrCodes = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)

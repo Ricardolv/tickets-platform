@@ -3,6 +3,7 @@ CREATE TABLE ticket_types
     id              UUID                        NOT NULL,
     name            VARCHAR(255)                NOT NULL,
     price           DECIMAL                     NOT NULL,
+    description     VARCHAR(255),
     total_available INTEGER,
     event_id        UUID,
     created_at      date                        NOT NULL,

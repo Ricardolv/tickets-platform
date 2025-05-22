@@ -20,6 +20,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -46,7 +47,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
-    private List<Event> organizedEvents = List.of();
+    private List<Event> organizedEvents = new ArrayList<>();
 
     @ManyToMany(mappedBy = "attendees")
     @JoinTable(
@@ -54,7 +55,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
-    private List<Event> attendingEvents = List.of();
+    private List<Event> attendingEvents = new ArrayList<>();
 
     @ManyToMany(mappedBy = "staff")
     @JoinTable(
@@ -62,7 +63,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
-    private List<Event> staffingEvents = List.of();
+    private List<Event> staffingEvents = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)

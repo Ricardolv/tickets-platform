@@ -24,6 +24,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -50,6 +51,9 @@ public class TicketType {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "total_available")
     private Integer totalAvailable;
 
@@ -57,8 +61,9 @@ public class TicketType {
     @JoinColumn(name = "event_id")
     private Event event;
 
+    @Builder.Default
     @OneToMany(mappedBy = "ticketType", cascade = CascadeType.ALL)
-    private List<Ticket> tickets = List.of();
+    private List<Ticket> tickets = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
@@ -72,11 +77,11 @@ public class TicketType {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         TicketType that = (TicketType) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(price, that.price) && Objects.equals(totalAvailable, that.totalAvailable) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(price, that.price) && Objects.equals(description, that.description) && Objects.equals(totalAvailable, that.totalAvailable) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, totalAvailable, createdAt, updatedAt);
+        return Objects.hash(id, name, price, description, totalAvailable, createdAt, updatedAt);
     }
 }
