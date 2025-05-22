@@ -1,6 +1,6 @@
 services:
   # Our PostreSQL image
-  db:
+  db-tickets:
     # Using the latest PostgresSQL image
     image: postgres:latest
     container_name: db-tickets
@@ -9,3 +9,22 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: changemeinprod!
+
+  keycloak-tickets:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak-tickets
+    ports:
+      - "9090:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+    command:
+      - start-dev
+      - --db=dev-file
+
+volumes:
+  keycloak-data:
+    driver: local
+
