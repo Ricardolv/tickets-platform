@@ -1,7 +1,6 @@
 package com.richard.tickets.infrastructure.persistence.entities;
 
-import com.richard.tickets.infrastructure.persistence.entities.enums.EventStatusEnum;
-import jakarta.persistence.CascadeType;
+import com.richard.tickets.infrastructure.persistence.entities.enums.TicketStatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,9 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,59 +24,39 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "events")
+@Table(name = "tickets")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Event {
+public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "start", nullable = false)
-    private LocalDateTime start;
-
-    @Column(name = "end")
-    private LocalDateTime end;
-
-    @Column(name = "venue")
-    private String venue;
-
-    @Column(name = "sales_start")
-    private LocalDateTime salesStart;
-
-    @Column(name = "sales_end")
-    private LocalDateTime salesEnd;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private EventStatusEnum status;
+    private TicketStatusEnum status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organizer_id")
-    private User organizer;
+    @JoinColumn(name = "ticket_type_id")
+    private TicketType ticketType;
 
-    @ManyToMany(mappedBy = "attendingEvents")
-    private List<User> attendees = List.of();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "purchaser_id")
+    private User purchaser;
 
-    @ManyToMany(mappedBy = "staffingEvents")
-    private List<User> staff = List.of();
+    // TODO: Validation
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private List<TicketType> ticketTypes = List.of();
+    // TODO: QRcode
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
