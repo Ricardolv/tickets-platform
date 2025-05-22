@@ -1,8 +1,13 @@
 package com.richard.tickets.infrastructure.persistence.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +21,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @DynamicInsert
@@ -39,11 +45,24 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    //TODO: Organized events
+    @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
+    private List<Event> organizedEvents = List.of();
 
-    //TODO: Attending events
+    @ManyToMany(mappedBy = "attendees")
+    @JoinTable(
+            name = "user_event_attending",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private List<Event> attendingEvents = List.of();
 
-    //TODO: Staffing events
+    @ManyToMany(mappedBy = "staff")
+    @JoinTable(
+            name = "user_event_staffing",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private List<Event> staffingEvents = List.of();
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
