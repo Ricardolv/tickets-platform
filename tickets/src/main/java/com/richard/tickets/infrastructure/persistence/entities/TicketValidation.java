@@ -1,6 +1,6 @@
 package com.richard.tickets.infrastructure.persistence.entities;
 
-import com.richard.tickets.infrastructure.persistence.entities.enums.TicketValidationMethod;
+import com.richard.tickets.infrastructure.persistence.entities.enums.TicketValidationMethodEnum;
 import com.richard.tickets.infrastructure.persistence.entities.enums.TicketValidationStatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,7 +50,7 @@ public class TicketValidation {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "validation_method", nullable = false)
-    private TicketValidationMethod validationMethod;
+    private TicketValidationMethodEnum validationMethod;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_id")
