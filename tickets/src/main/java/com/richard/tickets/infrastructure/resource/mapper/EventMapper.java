@@ -6,6 +6,8 @@ import com.richard.tickets.infrastructure.resource.request.CreateEventRequest;
 import com.richard.tickets.infrastructure.resource.request.CreateTicketTypeRequest;
 import com.richard.tickets.infrastructure.resource.response.CreateEventResponse;
 import com.richard.tickets.infrastructure.resource.response.CreateTicketTypeReponse;
+import com.richard.tickets.infrastructure.resource.response.EventsResponse;
+import com.richard.tickets.infrastructure.resource.response.EventsTicketTypeResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -28,8 +30,10 @@ public interface EventMapper {
     TicketType requetToEventTicketType(CreateTicketTypeRequest request);
 
     CreateEventResponse eventToEventResponse(Event event);
-
     CreateTicketTypeReponse ticketTypeToTicketTypeResponse(TicketType ticketType);
+
+    EventsTicketTypeResponse ticketTypeToEventsTicketTypeResponse(TicketType ticketType);
+    EventsResponse eventToEventsResponse(Event event);
 
 }
 
