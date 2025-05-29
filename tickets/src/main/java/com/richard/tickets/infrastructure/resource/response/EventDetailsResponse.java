@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventsResponse {
+public class EventDetailsResponse {
 
     private UUID id;
     private String name;
@@ -25,6 +26,8 @@ public class EventsResponse {
     private LocalDateTime salesStart;
     private LocalDateTime salesEnd;
     private EventStatusEnum status;
-    private List<EventsTicketTypesResponse> ticketTypes = new ArrayList<>();
+    private List<EventTicketTypesDetailsResponse> ticketTypes = new ArrayList<>();
+    private LocalDate createdAt;
+    private LocalDateTime updatedAt;
 
 }

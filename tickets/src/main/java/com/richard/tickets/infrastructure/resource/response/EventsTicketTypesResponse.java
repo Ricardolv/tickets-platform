@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventsTicketTypeResponse {
+public class EventsTicketTypesResponse {
 
     private UUID id;
     private String name;
