@@ -69,8 +69,6 @@ public class EventResource {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
-
     private UUID parseUserId(final Jwt jwt) {
         return UUID.fromString(jwt.getSubject());
     }

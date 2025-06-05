@@ -26,9 +26,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @DynamicInsert
@@ -61,11 +61,11 @@ public class Ticket {
 
     @Builder.Default
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-    private List<TicketValidation> validations = new ArrayList<>();
+    private Set<TicketValidation> validations = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-    private List<QrCode> qrCodes = new ArrayList<>();
+    private Set<QrCode> qrCodes = new HashSet<>();
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)

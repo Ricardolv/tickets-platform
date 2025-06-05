@@ -1,19 +1,6 @@
 package com.richard.tickets.infrastructure.persistence.entities;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import com.richard.tickets.infrastructure.persistence.entities.enums.EventStatusEnum;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +20,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 @DynamicInsert
 @DynamicUpdate
@@ -78,15 +76,15 @@ public class Event {
 
     @Builder.Default
     @ManyToMany(mappedBy = "attendingEvents")
-    private List<User> attendees = new ArrayList<>();
+    private Set<User> attendees = new HashSet<>();
 
     @Builder.Default
     @ManyToMany(mappedBy = "staffingEvents")
-    private List<User> staff = new ArrayList<>();
+    private Set<User> staff = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private List<TicketType> ticketTypes = new ArrayList<>();
+    private Set<TicketType> ticketTypes = new HashSet<>();
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
