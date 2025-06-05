@@ -17,8 +17,24 @@ import java.util.List;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(TickeTypeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTickeTypeNotFoundException(TickeTypeNotFoundException ex) {
+        log.error("Caught EventNotFoundException: ", ex);
+        ErrorResponse error = new ErrorResponse();
+        error.setError("Ticke type not found");
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EventNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEventNotFoundException(EventNotFoundException ex) {
+        log.error("Caught EventNotFoundException: ", ex);
+        ErrorResponse error = new ErrorResponse();
+        error.setError("Event not found");
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(UserNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
         log.error("Caught UserNotFoundException: ", ex);
         ErrorResponse error = new ErrorResponse();
         error.setError("User not found");
@@ -26,7 +42,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         log.error("Caught MethodArgumentNotValidException: ", ex);
         ErrorResponse error = new ErrorResponse();
 

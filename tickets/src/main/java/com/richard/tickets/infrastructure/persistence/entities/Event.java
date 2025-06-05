@@ -83,7 +83,7 @@ public class Event {
     private Set<User> staff = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TicketType> ticketTypes = new HashSet<>();
 
     @CreatedDate
