@@ -4,6 +4,7 @@ import com.richard.tickets.domain.EventService;
 import com.richard.tickets.infrastructure.persistence.entities.Event;
 import com.richard.tickets.infrastructure.resource.mapper.EventMapper;
 import com.richard.tickets.infrastructure.resource.request.CreateEventRequest;
+import com.richard.tickets.infrastructure.resource.request.UpdateEventRequest;
 import com.richard.tickets.infrastructure.resource.response.CreateEventResponse;
 import com.richard.tickets.infrastructure.resource.response.EventDetailsResponse;
 import com.richard.tickets.infrastructure.resource.response.EventsResponse;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +39,7 @@ public class EventResource {
                                             @AuthenticationPrincipal Jwt jwt,
                                             @Valid @RequestBody CreateEventRequest request) {
 
-        Event event = eventMapper.requetToEvent(request);
+        Event event = eventMapper.createRequetToEvent(request);
         UUID userId = parseUserId(jwt);
 
         Event entity = eventService.createEvent(userId, event);
@@ -67,6 +69,19 @@ public class EventResource {
                 .map(eventMapper::eventToEventsDetailsResponse)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping(path = "/{eventId}")
+    public ResponseEntity<CreateEventResponse> updateEvent(
+                                                @AuthenticationPrincipal Jwt jwt,
+                                                @PathVariable UUID eventId,
+                                                @Valid @RequestBody UpdateEventRequest request) {
+
+        Event event = eventMapper.updateRequestToEvent(request);
+        UUID userId = parseUserId(jwt);
+        Event updatedEvent = eventService.updateEventForOrganizer(userId, eventId, event);
+
+        return ResponseEntity.ok(eventMapper.eventToEventResponse(updatedEvent));
     }
 
     private UUID parseUserId(final Jwt jwt) {

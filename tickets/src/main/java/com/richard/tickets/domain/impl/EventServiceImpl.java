@@ -58,7 +58,7 @@ public class EventServiceImpl implements EventService {
             throw  new EventUpdateException("CAnnot update the ID of an event");
         }
 
-        User organizer = userRepository.findById(organizedId)
+        userRepository.findById(organizedId)
                 .orElseThrow(() -> new UserNotFoundException(
                         String.format("Organizer with id %s not found", organizedId)
                 ));
